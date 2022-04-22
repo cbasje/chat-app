@@ -25,7 +25,12 @@ function NewConversationModal({ closeModal }: { closeModal: () => void }) {
 				<MultiSelect
 					value={selectedContacts}
 					onChange={setSelectedContacts}
-					data={contacts.map((c: Contact) => c.name) || []}
+					data={
+						contacts.map((c: Contact) => ({
+							value: c.id,
+							label: c.name,
+						})) || []
+					}
 					label="All contacts"
 					placeholder="Pick all the contacts you want to start a conversation with"
 					searchable

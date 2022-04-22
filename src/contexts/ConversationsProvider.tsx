@@ -55,10 +55,9 @@ export function ConversationsProvider({
 	const { socket } = useSocket();
 
 	const createConversation = (recipients: string[]) => {
-		setConversations((prevConversations) => [
-			...prevConversations,
-			{ recipients, messages: [] },
-		]);
+		setConversations((prevConversations) => {
+			return [...prevConversations, { recipients, messages: [] }];
+		});
 	};
 
 	const selectIndex = (index: number) => {
