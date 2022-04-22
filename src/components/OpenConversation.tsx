@@ -52,17 +52,43 @@ function OpenConversation() {
 								>
 									<Box ref={lastM ? setRef : null}>
 										<Text
-											sx={(theme) => ({
-												backgroundColor:
-													theme.colorScheme === 'dark'
-														? theme.colors.brand[9]
-														: theme.colors.brand[2],
-												color:
-													theme.colorScheme === 'dark'
-														? theme.colors.gray[0]
-														: theme.colors.gray[8],
-												borderRadius: theme.radius.lg,
-											})}
+											sx={(theme) => {
+												const baseTheme = {
+													color:
+														theme.colorScheme ===
+														'dark'
+															? theme.colors
+																	.gray[0]
+															: theme.colors
+																	.gray[8],
+													borderRadius:
+														theme.radius.lg,
+													boxShadow: theme.shadows.xs,
+												};
+
+												if (!m.fromMe)
+													return {
+														backgroundColor:
+															theme.colorScheme ===
+															'dark'
+																? theme.colors
+																		.brand[9]
+																: theme.colors
+																		.brand[2],
+														...baseTheme,
+													};
+												else
+													return {
+														backgroundColor:
+															theme.colorScheme ===
+															'dark'
+																? theme.colors
+																		.gray[9]
+																: theme.colors
+																		.gray[2],
+														...baseTheme,
+													};
+											}}
 											px={10}
 											py={5}
 										>
