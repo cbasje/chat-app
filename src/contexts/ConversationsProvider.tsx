@@ -127,16 +127,16 @@ export function ConversationsProvider({
 	};
 
 	const formattedConversations: FormattedConversation[] = conversations.map(
-		(c, index) => {
-			const recipients = c.recipients.map((c) => {
+		(conversation, index) => {
+			const recipients = conversation.recipients.map((recipient) => {
 				const contact = contacts.find((contact) => {
-					return contact.id === c;
+					return contact.id === recipient;
 				});
-				const name = (contact && contact.name) || c;
-				return { id: c, name };
+				const name = (contact && contact.name) || recipient;
+				return { id: recipient, name };
 			});
 
-			const messages = c.messages.map((message) => {
+			const messages = conversation.messages.map((message) => {
 				const contact = contacts.find((contact) => {
 					return contact.id === message.sender;
 				});
@@ -146,7 +146,7 @@ export function ConversationsProvider({
 			});
 
 			const selected = index === selectedIndex;
-			return { ...c, messages, recipients, selected };
+			return { ...conversation, messages, recipients, selected };
 		}
 	);
 
