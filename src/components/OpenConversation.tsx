@@ -66,7 +66,7 @@ function OpenConversation() {
 													boxShadow: theme.shadows.xs,
 												};
 
-												if (!m.fromMe)
+												if (m.fromMe)
 													return {
 														backgroundColor:
 															theme.colorScheme ===
