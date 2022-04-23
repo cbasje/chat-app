@@ -1,9 +1,11 @@
 import {
 	ActionIcon,
 	AppShell,
+	Burger,
 	Button,
 	Group,
 	Header,
+	MediaQuery,
 	Modal,
 	Navbar,
 	Tabs,
@@ -30,7 +32,9 @@ function Dashboard({ id }: { id: string }) {
 	const theme = useMantineTheme();
 
 	const [activeTab, setActiveTab] = useState(TabKeys.Conversations);
-	const [opened, setOpened] = useState(false);
+	const [modalOpened, setModalOpened] = useState(false);
+
+	const [navBarOpened, setNavBarOpened] = useState(false);
 
 	const { selectedIndex } = useConversations();
 
@@ -38,7 +42,12 @@ function Dashboard({ id }: { id: string }) {
 		<AppShell
 			padding="md"
 			navbar={
-				<Navbar width={{ base: 300 }} p="xs">
+				<Navbar
+					p="xs"
+					hiddenBreakpoint="sm"
+					hidden={!navBarOpened}
+					width={{ sm: 300 }}
+				>
 					<Navbar.Section grow>
 						<Tabs
 							grow
@@ -75,7 +84,7 @@ function Dashboard({ id }: { id: string }) {
 						<Button
 							style={{ width: '100%' }}
 							mt="sm"
-							onClick={() => setOpened(true)}
+							onClick={() => setModalOpened(true)}
 						>
 							New
 							{activeTab == TabKeys.Conversations
@@ -85,8 +94,8 @@ function Dashboard({ id }: { id: string }) {
 
 						<Modal
 							centered
-							opened={opened}
-							onClose={() => setOpened(false)}
+							opened={modalOpened}
+							onClose={() => setModalOpened(false)}
 							title={
 								activeTab == TabKeys.Conversations
 									? 'New conversation'
@@ -95,11 +104,11 @@ function Dashboard({ id }: { id: string }) {
 						>
 							{activeTab == TabKeys.Conversations ? (
 								<NewConversationModal
-									closeModal={() => setOpened(false)}
+									closeModal={() => setModalOpened(false)}
 								/>
 							) : (
 								<NewContactModal
-									closeModal={() => setOpened(false)}
+									closeModal={() => setModalOpened(false)}
 								/>
 							)}
 						</Modal>
@@ -108,7 +117,27 @@ function Dashboard({ id }: { id: string }) {
 			}
 			header={
 				<Header height={60}>
-					<Group sx={{ height: '100%' }} px={20} position="apart">
+					<Group
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							height: '100%',
+						}}
+						px={20}
+						position="apart"
+					>
+						<MediaQuery
+							largerThan="sm"
+							styles={{ display: 'none' }}
+						>
+							<Burger
+								opened={navBarOpened}
+								onClick={() => setNavBarOpened((o) => !o)}
+								size="sm"
+								color={theme.colors.gray[6]}
+								mr="xl"
+							/>
+						</MediaQuery>
 						{/* <Logo colorScheme={colorScheme} /> */}
 						<ActionIcon
 							variant="default"
