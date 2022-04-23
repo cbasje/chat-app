@@ -1,6 +1,6 @@
 import { Button, Group, MultiSelect, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { NotePencil } from 'phosphor-react';
+import { ArrowSquareOut } from 'phosphor-react';
 import { useState } from 'react';
 import { Contact, useContacts } from '../contexts/ContactsProvider';
 import { useConversations } from '../contexts/ConversationsProvider';
@@ -40,7 +40,7 @@ function NewConversationModal({ closeModal }: { closeModal: () => void }) {
 				<Group position="right" mt="sm">
 					<Button
 						type="submit"
-						leftIcon={<NotePencil size={20} />}
+						leftIcon={<ArrowSquareOut size={20} weight="duotone" />}
 						radius="xl"
 					>
 						Submit

@@ -13,7 +13,7 @@ import {
 	useMantineColorScheme,
 	useMantineTheme,
 } from '@mantine/core';
-import { AddressBook, ChatsCircle, MoonStars, Sun } from 'phosphor-react';
+import { AddressBook, ChatsCircle, MoonStars, Plus, Sun } from 'phosphor-react';
 import { useState } from 'react';
 import { useConversations } from '../contexts/ConversationsProvider';
 import Contacts from './Contacts';
@@ -57,25 +57,42 @@ function Dashboard({ id }: { id: string }) {
 						>
 							<Tabs.Tab
 								label="Conversations"
-								icon={<ChatsCircle size={14} />}
+								icon={
+									<ChatsCircle size={16} weight="duotone" />
+								}
 							>
 								<Conversations />
 							</Tabs.Tab>
 							<Tabs.Tab
 								label="Contacts"
-								icon={<AddressBook size={14} />}
+								icon={
+									<AddressBook size={16} weight="duotone" />
+								}
 							>
 								<Contacts />
 							</Tabs.Tab>
 						</Tabs>
 					</Navbar.Section>
 					<Navbar.Section
-						style={{
+						sx={(theme) => ({
 							borderTop: '1px solid',
-							borderColor: theme.colors.gray[2],
-						}}
+							borderColor:
+								theme.colorScheme === 'dark'
+									? theme.colors.gray[7]
+									: theme.colors.gray[2],
+						})}
 					>
-						<Text size="sm" weight={500} mt="sm">
+						<Text
+							size="sm"
+							weight={500}
+							mt="sm"
+							sx={(theme) => ({
+								color:
+									theme.colorScheme === 'dark'
+										? theme.colors.gray[0]
+										: theme.colors.gray[9],
+							})}
+						>
 							Your id
 						</Text>
 						<Text size="sm" color="gray">
@@ -86,6 +103,11 @@ function Dashboard({ id }: { id: string }) {
 							mt="sm"
 							onClick={() => setModalOpened(true)}
 						>
+							<Plus
+								size={16}
+								weight="duotone"
+								style={{ marginInlineEnd: theme.spacing.xs }}
+							/>
 							New
 							{activeTab == TabKeys.Conversations
 								? ' conversation'
@@ -145,9 +167,9 @@ function Dashboard({ id }: { id: string }) {
 							size={30}
 						>
 							{colorScheme === 'dark' ? (
-								<Sun size={16} />
+								<Sun size={16} weight="duotone" />
 							) : (
-								<MoonStars size={16} />
+								<MoonStars size={16} weight="duotone" />
 							)}
 						</ActionIcon>
 					</Group>

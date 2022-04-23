@@ -53,14 +53,14 @@ function Login({ onIdSubmit }: { onIdSubmit: (id: string) => void }) {
 					<Button
 						type="submit"
 						variant="filled"
-						leftIcon={<SignIn size={20} />}
+						leftIcon={<SignIn size={20} weight="duotone" />}
 						radius="xl"
 					>
 						Sign in
 					</Button>
 					<Button
 						variant="light"
-						leftIcon={<UserCirclePlus size={20} />}
+						leftIcon={<UserCirclePlus size={20} weight="duotone" />}
 						radius="xl"
 						onClick={createNewId}
 					>

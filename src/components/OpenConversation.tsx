@@ -119,7 +119,7 @@ function OpenConversation() {
 							radius="lg"
 							style={{ height: '100%' }}
 						>
-							<PaperPlaneTilt size={20} weight="bold" />
+							<PaperPlaneTilt size={24} weight="duotone" />
 						</Button>
 					</Group>
 				</form>
