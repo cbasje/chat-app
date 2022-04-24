@@ -1,5 +1,6 @@
 import {
 	ActionIcon,
+	Anchor,
 	AppShell,
 	Burger,
 	Button,
@@ -10,9 +11,11 @@ import {
 	Navbar,
 	Tabs,
 	Text,
+	Tooltip,
 	useMantineColorScheme,
 	useMantineTheme,
 } from '@mantine/core';
+import { useClipboard } from '@mantine/hooks';
 import { AddressBook, ChatsCircle, MoonStars, Plus, Sun } from 'phosphor-react';
 import { useState } from 'react';
 import { useConversations } from '../contexts/ConversationsProvider';
@@ -30,6 +33,8 @@ enum TabKeys {
 function Dashboard({ id }: { id: string }) {
 	const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 	const theme = useMantineTheme();
+
+	const clipboard = useClipboard({ timeout: 1000 });
 
 	const [activeTab, setActiveTab] = useState(TabKeys.Conversations);
 	const [modalOpened, setModalOpened] = useState(false);
@@ -51,7 +56,6 @@ function Dashboard({ id }: { id: string }) {
 					<Navbar.Section grow>
 						<Tabs
 							grow
-							variant="outline"
 							active={activeTab}
 							onTabChange={setActiveTab}
 						>
@@ -95,9 +99,23 @@ function Dashboard({ id }: { id: string }) {
 						>
 							Your id
 						</Text>
-						<Text size="sm" color="gray">
-							{id}
-						</Text>
+						<Tooltip
+							label={
+								clipboard.copied ? 'Copied!' : 'Click to copy'
+							}
+							withArrow
+							arrowSize={3}
+							position="top"
+							placement="center"
+						>
+							<Anchor
+								size="sm"
+								color="gray"
+								onClick={() => clipboard.copy(id)}
+							>
+								{id}
+							</Anchor>
+						</Tooltip>
 						<Button
 							style={{ width: '100%' }}
 							mt="sm"
@@ -160,7 +178,6 @@ function Dashboard({ id }: { id: string }) {
 								mr="xl"
 							/>
 						</MediaQuery>
-						{/* <Logo colorScheme={colorScheme} /> */}
 						<ActionIcon
 							variant="default"
 							onClick={() => toggleColorScheme()}
