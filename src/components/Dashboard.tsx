@@ -178,6 +178,17 @@ function Dashboard({ id }: { id: string }) {
 								mr="xl"
 							/>
 						</MediaQuery>
+						<Text
+							weight={500}
+							sx={(theme) => ({
+								color:
+									theme.colorScheme === 'dark'
+										? theme.colors.gray[0]
+										: theme.colors.gray[9],
+							})}
+						>
+							Chat app
+						</Text>
 						<ActionIcon
 							variant="default"
 							onClick={() => toggleColorScheme()}
