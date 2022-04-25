@@ -4,10 +4,13 @@ import {
 	FormattedConversation,
 	useConversations,
 } from '../contexts/ConversationsProvider';
+import { last } from 'lodash';
+import { DateTime } from 'luxon';
 
 interface ConversationProps {
 	color: string;
 	label: string;
+	timestamp: DateTime;
 	selected: boolean;
 	onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -15,6 +18,7 @@ interface ConversationProps {
 function ConversationItem({
 	color,
 	label,
+	timestamp,
 	selected,
 	onClick,
 }: ConversationProps) {
@@ -51,19 +55,25 @@ function ConversationItem({
 			onClick={onClick}
 			className={selected ? 'selected' : ''}
 		>
-			<Group>
-				<Avvvatars value={label} style="shape" />
+			<Group style={{ justifyContent: 'space-between' }}>
+				<Group>
+					<Avvvatars value={label} style="shape" />
 
-				<Text size="sm">{label}</Text>
+					<Text size="sm">{label}</Text>
+				</Group>
+
+				<Text size="xs" color="gray">
+					{timestamp.toFormat('t')}
+				</Text>
 			</Group>
 		</UnstyledButton>
 	);
 }
 
 function Conversations() {
-	const { conversations, selectIndex } = useConversations();
+	const { allConversations, selectId } = useConversations();
 
-	const getLabel = (c: FormattedConversation) => {
+	const getLabel = (c: FormattedConversation): string => {
 		const recipients = c.recipients.map((r) => r.name);
 		const cutoff = 3;
 
@@ -83,17 +93,39 @@ function Conversations() {
 		}
 	};
 
-	const conversationItems = conversations.map(
-		(conversation: FormattedConversation, index: number) => (
+	const getDate = (c: FormattedConversation): DateTime => {
+		const lastMessage = last(c.messages);
+		return lastMessage
+			? DateTime.fromMillis(lastMessage.timestamp)
+			: DateTime.now();
+	};
+
+	const sortConversations = (
+		a: FormattedConversation,
+		b: FormattedConversation
+	): number => {
+		const lastMessageA = last(a.messages);
+		const lastMessageB = last(b.messages);
+		return lastMessageA && lastMessageB
+			? lastMessageB.timestamp - lastMessageA.timestamp
+			: 0;
+	};
+
+	const conversationItems = allConversations
+		.sort(sortConversations)
+		.map((conversation: FormattedConversation) => (
 			<ConversationItem
 				color="cyan"
 				label={getLabel(conversation)}
-				onClick={() => selectIndex(index)}
+				timestamp={getDate(conversation)}
+				onClick={() => {
+					selectId(conversation.id);
+					console.log(allConversations);
+				}}
 				selected={conversation.selected}
-				key={index}
+				key={conversation.id}
 			/>
-		)
-	);
+		));
 
 	return <ScrollArea>{conversationItems}</ScrollArea>;
 }

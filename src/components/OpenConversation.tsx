@@ -9,6 +9,7 @@ import {
 	Textarea,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { DateTime } from 'luxon';
 import { PaperPlaneTilt } from 'phosphor-react';
 import { useCallback } from 'react';
 import { useConversations } from '../contexts/ConversationsProvider';
@@ -96,7 +97,11 @@ function OpenConversation() {
 										</Text>
 									</Box>
 									<Text size="sm" color="gray">
-										{m.fromMe ? 'You' : m.senderName}
+										{m.fromMe ? 'You' : m.senderName}{' '}
+										&middot;{' '}
+										{DateTime.fromMillis(
+											m.timestamp
+										).toFormat('t')}
 									</Text>
 								</Stack>
 							);

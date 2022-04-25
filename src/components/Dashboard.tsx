@@ -41,7 +41,7 @@ function Dashboard({ id }: { id: string }) {
 
 	const [navBarOpened, setNavBarOpened] = useState(false);
 
-	const { selectedIndex } = useConversations();
+	const { selectedId } = useConversations();
 
 	return (
 		<AppShell
@@ -202,7 +202,7 @@ function Dashboard({ id }: { id: string }) {
 				},
 			})}
 		>
-			{selectedIndex > -1 && <OpenConversation />}
+			{selectedId && <OpenConversation />}
 		</AppShell>
 	);
 }
